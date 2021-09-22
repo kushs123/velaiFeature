@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request;
 import cv2;
-
+from predict import predict;
 import numpy as np;
 
 import tensorflow as tf;
@@ -16,12 +16,12 @@ def get():
 def processing():
     image = request.files["filename"]
     image.save("./photos/"+image.filename)
-    img = cv2.imread("./photos/"+image.filename)
+    img = "./photos/"+image.filename
     # img = img.resize(224,224,1)
 
-    model = tf.keras.Model("./model/saved_model.pb")
-    print(model)
-    predictions = model.predict(img)
+    model_path = "./model"
+    # print(model)
+    predictions = predict(model_path, img)
     print(predictions)
     return "hey"
 
